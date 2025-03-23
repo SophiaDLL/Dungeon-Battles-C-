@@ -23,11 +23,11 @@ const int WITCH_SPAWN_RATE = 9.5;     // 9.5% chance to spawn Witch
 const int DRAGON_SPAWN_RATE = 0.5;    // 0.5% chance to spawn Dragon
 
 // Armor defense values
-const int LEATHER_DEFENSE = 15;
-const int CHAIN_DEFENSE = 30;
-const int IRON_DEFENSE = 45;
-const int GOLD_DEFENSE = 70;
-const int DIAMOND_DEFENSE = 100;
+const int LEATHER_DEFENSE = 15; // 15% Protection Rate
+const int CHAIN_DEFENSE = 30;   // 30% Protection Rate
+const int IRON_DEFENSE = 45;    // 45% Protection Rate
+const int GOLD_DEFENSE = 70;    // 70% Protection Rate
+const int DIAMOND_DEFENSE = 90;  // 90% Protection Rate
 // ===================== END OF CONFIGURABLE SETTINGS =====================
 
 
@@ -39,8 +39,10 @@ protected:
     int maxHealth; 
     int attackPower;
     int defense;
+    int DEFENSE;
+    int DEFENSEnum;
 public:
-    Character(string n, int h, int a, int d) : name(n), health(h), maxHealth(h), attackPower(a), defense(d) {}
+    Character(string n, int h, int a, int d) : name(n), health(h), maxHealth(h), attackPower(a), defense(d), ArmourType(at), ArmourDefence(ad) {}
 
     string getName() { return name; }
     int getHealth() { return health; }
@@ -72,6 +74,8 @@ public:
         cout << "Health: " << health << " / " << maxHealth << "\n";
         cout << "Attack: " << attackPower << "\n";
         cout << "Defense: " << defense << "\n";
+        cout << "ArmourType : " << Armour Type :  << "\n";
+        cout << "ArmourDefence : " << Armour Defence :  << "\n";
         cout << "=====================\n";
     }
 };
@@ -103,12 +107,14 @@ public:
     void levelUp() {
         level++;
         maxHealth += 10; // Add to youre maximum health after each level
-        if (maxHealth > 250) maxHealth = 250; // Cap max health at 250
+        if (maxHealth > 350) maxHealth = 350; // Cap max health at 350
         health = maxHealth; // Resetts youre hp to the max hp that you can be when you level up (level 15 = 150hp if going from level 15 to 16 then you will go from 150 to 160hp)
         experience = 0;
         cout << name << " leveled up! Now at Level " << level << "!\n";
         cout << "Max health increased to " << maxHealth << "!\n";
     }
+
+        //Future plans to rework the entire syste bellow.
 
     void addItem(string item) {
         inventory[item]++;
@@ -174,6 +180,8 @@ public:
     }
 };
 
+        //end of planned re-work.
+
 // Enemy Class
 class Enemy : public Character {
 private:
@@ -206,14 +214,15 @@ Enemy createRandomEnemy() {
         return Enemy("Hobgoblin", 25 + rand() % 26, 8 + rand() % 10, 3, 10);
     } else if (spawnRate < GOBLIN_SPAWN_RATE + HOBGOBLIN_SPAWN_RATE + WITCH_SPAWN_RATE) {
         return Enemy("Witch", 40 + rand() % 31, 20 + rand() % 6, 4, 15);
-    } else {
+    }
+     else{
         return Enemy("Dragon", 120 + rand() % 121, 30 + rand() % 21, 10, 20);
     }
 }
 
 // Function to determine if an item is found during exploration
 string findRandomItem() {
-    int dropRate = rand() % 100; 
+    int dropRate = rand() % 12.5; 
 
     if (dropRate < DIAMOND_DROP_RATE) {
         return "Diamond";
